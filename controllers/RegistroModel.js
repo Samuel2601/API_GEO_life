@@ -55,7 +55,15 @@ const registrarActividadProyecto = async function (req, res) {
 const registrarIncidenteDenuncia = async function (req, res) {
     if (req.user) {
         try {
-            let nuevoIncidente = await Model.Incidentes_denuncia.create(req.body);
+            var data = req.body;
+            var img_path = req.files.portada.path;
+            var name = img_path.split('\\'); // usar / en producción
+            var portada_name = name[2];
+            data.foto = portada_name;
+            
+            // Crear un nuevo incidente denuncia con los datos proporcionados
+            let nuevoIncidente = await Model.Incidentes_denuncia.create(data);
+            
             res.status(200).send({ message: 'Incidente/denuncia registrado correctamente', data: nuevoIncidente });
         } catch (error) {
             res.status(500).send({ message: 'Error al registrar el incidente/denuncia', error: error });
@@ -64,6 +72,7 @@ const registrarIncidenteDenuncia = async function (req, res) {
         res.status(500).send({ message: 'Acceso no permitido' });
     }
 };
+
 
 // Función para registrar una nueva categoría
 const registrarCategoria = async function (req, res) {
