@@ -8,8 +8,9 @@ exports.createToken = function(user){
     var payload = {
         sub: user._id,
         nombres: user.nombres,
-        apellidos: user.apellidos,
-        email: user.email,
+        cedula: user.cedula,
+        correo: user.correo,
+        rol_user:user.rol_user,
         iat: moment().unix(),
         exp: moment().add(3,'hours').unix()
     }
